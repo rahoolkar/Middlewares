@@ -17,6 +17,8 @@ const app = express();
 
 //a middlewware can 2 things 1.send a response 2.call next()
 
+//we should always write middlewares in the series in how we want to exceute
+
 //using next()
 app.use(function middleware1(req,res,next){
     console.log("i am middleware-one running");
@@ -29,6 +31,13 @@ app.use(function middleware1(req,res,next){
 app.use(function middleware2(req,res,next){
     console.log("i am middleware-two running");
     next(); //this will call app.get()
+})
+
+//logger middleware
+app.use((req,res,next)=>{
+    let time = new Date().toString();
+    console.log("log -",req.method,req.hostname,req.path,time);
+    next();
 })
 
 //so the call looks like : middleware1 -> middleware2 -> app.get();
