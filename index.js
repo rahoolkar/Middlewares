@@ -14,11 +14,24 @@ const app = express();
 //3. end the req and res cycle
 //4. call the nect function in the stack
 
-app.use(function middlewares(req,res){
-    console.log("i am middleware running");
+
+//a middlewware can 2 things 1.send a response 2.call next()
+
+//using next()
+app.use(function middleware1(req,res,next){
+    console.log("i am middleware-one running");
     //sending the response before request gets to the server
-    res.send("mai middleware hoon, mujhse bachkar rahio")
+    //res.send("mai middleware hoon, mujhse bachkar rahio")
+
+    next(); //this will call middleware2
 })
+
+app.use(function middleware2(req,res,next){
+    console.log("i am middleware-two running");
+    next(); //this will call app.get()
+})
+
+//so the call looks like : middleware1 -> middleware2 -> app.get();
 
 app.get("/",(req,res)=>{
     res.send("hi you have landed on the root page");
