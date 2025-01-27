@@ -46,7 +46,19 @@ app.use("/abcd",(req,res)=>{
     console.log("this is a abcd route middleware") //now the middleware will only work the /abcd path and it will not work for the other paths
 })
 
+//setting a middleware before accessing the data - bodyguard
+app.use("/api",(req,res,next)=>{
+    let {query} = req.query;
+    if(query=="sigma"){
+        next();
+    }else{
+        res.send("bhaag madarchod")
+    }
+})
 
+app.get("/api",(req,res)=>{
+    res.send("this is your data");
+})
 app.get("/",(req,res)=>{
     res.send("hi you have landed on the root page");
 })
