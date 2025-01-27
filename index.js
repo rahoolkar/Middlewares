@@ -42,12 +42,22 @@ app.use((req,res,next)=>{
 
 //so the call looks like : middleware1 -> middleware2 -> app.get();
 
+app.use("/abcd",(req,res)=>{
+    console.log("this is a abcd route middleware") //now the middleware will only work the /abcd path and it will not work for the other paths
+})
+
+
 app.get("/",(req,res)=>{
     res.send("hi you have landed on the root page");
 })
 
 app.get("/random",(req,res)=>{
     res.send("hi, you have landed on the random page");
+})
+
+//we have a request that doesnot matches with the above all code then we can write like this
+app.use((req,res)=>{
+    res.send("Page not found sorry");
 })
 
 app.listen(8080,(req,res)=>{
