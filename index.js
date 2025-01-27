@@ -47,16 +47,19 @@ app.use("/abcd",(req,res)=>{
 })
 
 //setting a middleware before accessing the data - bodyguard
-app.use("/api",(req,res,next)=>{
+
+//putting the middleware function to a variable 
+const checkToken = (req,res,next)=>{
     let {query} = req.query;
     if(query=="sigma"){
         next();
     }else{
         res.send("bhaag madarchod")
     }
-})
+}
 
-app.get("/api",(req,res)=>{
+//passing the middleware function as an paramter in the app.use()
+app.get("/api",checkToken,(req,res)=>{
     res.send("this is your data");
 })
 app.get("/",(req,res)=>{
